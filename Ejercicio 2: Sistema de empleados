@@ -1,0 +1,47 @@
+class Empleado:
+    def __init__(self, nombre, sueldo_base):
+        self.nombre = nombre
+        # El guion bajo indica que el atributo es privado
+        self._sueldo_base = sueldo_base
+
+    # Un getter para obtener el sueldo
+    def get_sueldo_base(self):
+        return self._sueldo_base
+
+    # Un setter para modificar el sueldo con validación
+    def set_sueldo_base(self, nuevo_sueldo):
+        if nuevo_sueldo > 0:
+            self._sueldo_base = nuevo_sueldo
+
+    def calcular_salario(self):
+        pass
+
+class EmpleadoFijo(Empleado):
+    def calcular_salario(self):
+        # Recibe un bono fijo del 10%
+        return self.get_sueldo_base() + (self.get_sueldo_base() * 0.10)
+
+class EmpleadoPorHoras(Empleado):
+    def __init__(self, nombre, sueldo_base, horas_trabajadas):
+        super().__init__(nombre, sueldo_base)
+        self.horas_trabajadas = horas_trabajadas
+
+    def calcular_salario(self):
+        # El sueldo base aquí actúa como pago por hora
+        return self.get_sueldo_base() * self.horas_trabajadas
+
+class EmpleadoTemporal(Empleado):
+    def calcular_salario(self):
+        # Cobra el sueldo base sin bonos
+        return self.get_sueldo_base()
+
+# --- Demostración de Polimorfismo ---
+lista_empleados = [
+    EmpleadoFijo("Ana", 2000),
+    EmpleadoPorHoras("Luis", 15, 160), 
+    EmpleadoTemporal("Marta", 1500)
+]
+
+print("Cálculo de nómina:")
+for emp in lista_empleados:
+    print(f"Empleado: {emp.nombre} - Salario Final: ${emp.calcular_salario()}")
